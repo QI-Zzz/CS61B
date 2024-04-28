@@ -15,10 +15,7 @@ public class ArrayDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
+        return size == 0;
     }
 
     public int size() {
@@ -72,34 +69,43 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (size == length - 1) {
+        if (size == length) {
             grow();
         }
         first = minusOne(first);
         array[first] = item;
+        if (size == 0) {
+            last = first;
+        }
+        if (size == 1) {
+            last = plusOne(first, length);
+        }
         size++;
     }
 
     public void addLast(T item) {
-        if (size == length - 1) {
+        if (size == length) {
             grow();
         }
         array[last] = item;
         last = plusOne(last, length);
         size++;
+        if (size == 1) {
+            last = minusOne(last);
+        }
     }
 
     public T removeFirst() {
         if (size == 0) {
             return null;
         }
-        if (length >= 16 && length / size >= 4) {
-            shrink();
-        }
         T item = array[first];
         array[first] = null;
         first = plusOne(first, length);
         size--;
+        if (length >= 16 && length / size >= 4) {
+            shrink();
+        }
         return item;
     }
 
@@ -107,13 +113,16 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        if (length >= 16 && length / size >= 4) {
-            shrink();
-        }
         T item = array[last];
         array[last] = null;
         last = minusOne(last);
         size--;
+        if (size == 0) {
+            last = first = 0; // Ensure 'last' also points to the only element
+        }
+        if (length >= 16 && length / size >= 4) {
+            shrink();
+        }
         return item;
     }
 
