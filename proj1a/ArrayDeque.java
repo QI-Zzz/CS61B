@@ -1,10 +1,10 @@
-public class ArrayDeque<T>{
+public class ArrayDeque<T> {
 
-    public T[] array;
-    public int size;
-    public int length;
-    public int first;
-    public int last;
+    private T[] array;
+    private int size;
+    private int length;
+    private int first;
+    private int last;
 
     public ArrayDeque() {
         array = (T[]) new Object[8];
@@ -37,30 +37,37 @@ public class ArrayDeque<T>{
     public void resize() {
         T[] newarray = (T[]) new Object[length * 2];
         int start = (length * 2 - size) / 2;
-        for (int i = 0; i < size; i ++) {
-            newarray[start+i] = array[(first+i)%length];
+        for (int i = 0; i < size; i++) {
+            newarray[start + i] = array[(first + i) % length];
         }
         first = start;
-        last = start+size-1;
+        last = start + size - 1;
         array = newarray;
         length *= 2;
     }
 
     public void addFirst(T item) {
-        if (size == length) resize();
+        if (size == length) {
+            resize();
+        }
         array[first] = item;
         first = minusOne(first);
         size++;
     }
 
-    public void addLast(T item){
-        if (size == length) resize();
+    public void addLast(T item) {
+        if (size == length) {
+            resize();
+        }
         array[last] = item;
         last = plusOne(last);
         size++;
     }
 
     public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
         T item = array[first];
         first = plusOne(first);
         size--;
@@ -68,6 +75,9 @@ public class ArrayDeque<T>{
     }
 
     public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         T item = array[last];
         last = minusOne(last);
         size--;
