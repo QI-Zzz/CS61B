@@ -25,41 +25,54 @@ public class ArrayDeque<T> {
         return size;
     }
 
-    private int plusOne(int index) {
-        return (index + 1) % length;
+    private int plusOne(int index, int module) {
+        index %= module;
+        if (index == module - 1) {
+            return 0;
+        }
+        return index + 1;
     }
 
     private int minusOne(int index) {
-        return (index - 1 + length) % length;
+        if (index == 0) {
+            return length - 1;
+        }
+        return index - 1;
     }
 
 
     private void grow() {
-        T[] newarray = (T[]) new Object[length * 2];
-        int start = (first + length) % (length * 2);
-        for (int i = 0; i < size; i++) {
-            newarray[start + i] = array[(first + i) % length];
+        T[] newArray = (T[]) new Object[length * 2];
+        int ptr1 = first;
+        int ptr2 = length;
+        while (ptr1 != last) {
+            newArray[ptr2] = array[ptr1];
+            ptr1 = plusOne(ptr1, length);
+            ptr2 = plusOne(ptr2, length * 2);
         }
-        first = start;
-        last = (first + size) % (length * 2);
-        array = newarray;
+        first = length;
+        last = ptr2;
+        array = newArray;
         length *= 2;
     }
 
-    public void shrink(){
-        T[] newarray = (T[]) new Object[length / 2];
-        int start = (length / 4) % (length / 2);
-        for (int i = 0; i < size; i++) {
-            newarray[start + i] = array[(first + i) % length];
+    private void shrink(){
+        T[] newArray = (T[]) new Object[length / 2];
+        int ptr1 = first;
+        int ptr2 = length / 4;
+        while (ptr1 != last) {
+            newArray[ptr2] = array[ptr1];
+            ptr1 = plusOne(ptr1, length);
+            ptr2 = plusOne(ptr2, length / 2);
         }
-        first = start;
-        last = (first + size) % (length / 2);
-        array = newarray;
+        first = length / 4;
+        last = ptr2;
+        array = newArray;
         length /= 2;
     }
 
     public void addFirst(T item) {
-        if (size == length) {
+        if (size == length - 1) {
             grow();
         }
         first = minusOne(first);
@@ -68,11 +81,11 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if (size == length) {
+        if (size == length - 1) {
             grow();
         }
         array[last] = item;
-        last = plusOne(last);
+        last = plusOne(last, length);
         size++;
     }
 
@@ -80,13 +93,13 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        T item = array[first];
-        array[first] = null;
-        first = plusOne(first);
-        size--;
-        if (size < length / 4 && length > 8) {
+        if (length >= 16 && length / size >= 4) {
             shrink();
         }
+        T item = array[first];
+        array[first] = null;
+        first = plusOne(first, length);
+        size--;
         return item;
     }
 
@@ -94,13 +107,13 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
+        if (length >= 16 && length / size >= 4) {
+            shrink();
+        }
         T item = array[last];
         array[last] = null;
         last = minusOne(last);
         size--;
-        if (size < length / 4 && length > 8) {
-            shrink();
-        }
         return item;
     }
 
@@ -108,14 +121,18 @@ public class ArrayDeque<T> {
         if (index < 0 || index >= size) {
             return null;
         }
-        return array[(first + index) % length];
+        int ptr = first;
+        for (int i = 0; i < index; i++) {
+            ptr = plusOne(ptr, length);
+        }
+        return array[ptr];
     }
 
     public void printDeque() {
         int i = first;
         while (i != last) {
             System.out.print(array[i] + " ");
-            i = plusOne(i);
+            i = plusOne(i, length);
         }
         System.out.println();
     }

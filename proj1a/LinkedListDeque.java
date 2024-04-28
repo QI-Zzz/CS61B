@@ -1,6 +1,6 @@
 public class LinkedListDeque<T> {
 
-    public class Node<T> {
+    private class Node<T> {
         private T item;
         private Node<T> pre;
         private Node<T> next;
