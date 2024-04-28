@@ -139,27 +139,17 @@
 //}
 
 
-/** second part of project1A.
- * deque implemented by array
- * @author FlyingPig
- */
 public class ArrayDeque<T> {
 
-    /** array to save data.*/
     private T[] array;
-    /** size of the deque. */
     private int size;
 
-    /** size of the array. */
     private int length;
 
-    /** front index. */
     private int front;
 
-    /** last index. */
     private int last;
 
-    /** constructor for ArrayDeque. */
     public ArrayDeque() {
         array = (T[]) new Object[8];
         size = 0;
@@ -168,21 +158,14 @@ public class ArrayDeque<T> {
         last = 4;
     }
 
-    /** decide if the deque is empty.
-     * @return true if the deque is empty, vice versa.
-     */
     public boolean isEmpty() {
         return size == 0;
     }
 
-    /** return the size of the deque. */
     public int size() {
         return size;
     }
 
-    /** return the "index - 1".
-     * @param index index
-     */
     private int minusOne(int index) {
         if (index == 0) {
             return length - 1;
@@ -190,9 +173,6 @@ public class ArrayDeque<T> {
         return index - 1;
     }
 
-    /** return the "index + 1".
-     * @param index index
-     */
     private int plusOne(int index, int module) {
         index %= module;
         if (index == module - 1) {
@@ -231,9 +211,6 @@ public class ArrayDeque<T> {
         length /= 2;
     }
 
-    /** add one item at the front of the deque.
-     * @param item the item we want to add
-     */
     public void addFirst(T item) {
         if (size == length - 1) {
             grow();
@@ -243,9 +220,6 @@ public class ArrayDeque<T> {
         size++;
     }
 
-    /** add one item at the end of the deque.
-     * @param item item we want to add
-     */
     public void addLast(T item) {
         if (size == length - 1) {
             grow();
@@ -255,9 +229,6 @@ public class ArrayDeque<T> {
         size++;
     }
 
-    /** remove the first item.
-     * @return the removed first item
-     */
     public T removeFirst() {
         if (length >= 16 && length / size >= 4) {
             shrink();
@@ -271,9 +242,6 @@ public class ArrayDeque<T> {
         return ret;
     }
 
-    /** remove the last item.
-     * @return the removed last item
-     */
     public T removeLast() {
         if (length >= 16 && length / size >= 4) {
             shrink();
@@ -286,9 +254,7 @@ public class ArrayDeque<T> {
         return array[last];
     }
 
-    /** return the item indexed at index.
-     * @param index index
-     */
+
     public T get(int index) {
         if (index >= size) {
             return null;
@@ -300,7 +266,6 @@ public class ArrayDeque<T> {
         return array[ptr];
     }
 
-    /** print the entire deque from front to end. */
     public void printDeque() {
         int ptr = front;
         while (ptr != last) {
