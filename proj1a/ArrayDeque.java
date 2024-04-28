@@ -34,7 +34,7 @@ public class ArrayDeque<T> {
     }
 
 
-    public void resize() {
+    private void resize() {
         T[] newarray = (T[]) new Object[length * 2];
         int start = (length * 2 - size) / 2;
         for (int i = 0; i < size; i++) {
