@@ -7,11 +7,11 @@ public class ArrayDeque<T> {
     private int last;
 
     public ArrayDeque() {
-        array = (T[]) new Object[8];
+        array = (T[]) new Object[4];
         size = 0;
-        length = 8;
-        first = 0;
-        last = 1;
+        length = 4;
+        first = 1;
+        last = 2;
     }
 
     public boolean isEmpty() {
@@ -26,7 +26,7 @@ public class ArrayDeque<T> {
     }
 
     private int plusOne(int index) {
-        if (index == length- 1) {
+        if (index == length - 1) {
             return 0;
         }
         return index + 1;
@@ -39,24 +39,14 @@ public class ArrayDeque<T> {
         return index - 1;
     }
 
-//    private void grow() {
-//        T[] newArray = (T[]) new Object[length * 2];
-//        int ptr1 = first;
-//        int ptr2 = length;
-//        while (ptr1 != last) {
-//            newArray[ptr2] = array[ptr1];
-//            ptr1 = plusOne(ptr1);
-//            ptr2 = plusOne(ptr2, length * 2);
-//        }
-//        first = length;
-//        last = ptr2;
-//        array = newArray;
-//        length *= 2;
-//    }
-
-    private void resize() {
+    public void resize() {
         T[] newArray = (T[]) new Object[length * 2];
-        int current = last;
+        int current = 0;
+        if (last > first) {
+            current = last;
+        } else {
+            current = first;
+        }
         int count = 0;
         while (count < size) {
             newArray[count] = array[current];
@@ -64,42 +54,34 @@ public class ArrayDeque<T> {
             count++;
         }
         first = length * 2 - 1;
-        last = size + 1;
+        last = size;
         array = newArray;
         length *= 2;
     }
 
-//    private void shrink() {
-//        T[] newArray = (T[]) new Object[length / 2];
-//        int ptr1 = first;
-//        int ptr2 = length / 4;
-//        while (ptr1 != last) {
-//            newArray[ptr2] = array[ptr1];
-//            ptr1 = plusOne(ptr1, length);
-//            ptr2 = plusOne(ptr2, length / 2);
+
+    public void shrink() {
+        T[] newArray = (T[]) new Object[length / 2];
+        int current = first + 1;
+//        if (last > first) {
+//            current = last;
+//        } else {
+//            current = first;
 //        }
-//        first = length / 4;
-//        last = ptr2;
-//        array = newArray;
-//        length /= 2;
-//    }
-//    private void shrink() {
-//        T[] newArray = (T[]) new Object[length / 2];
-//        int current = first + 1;
-//        int count = 0;
-//        while (count < size) {
-//            newArray[count] = array[current];
-//            current = plusOne(current);
-//            count++;
-//        }
-//        first = length * 2 -1;
-//        last = size + 1;
-//        array = newArray;
-//        length *= 2;
-//    }
+        int count = 0;
+        while (count < size) {
+            newArray[count] = array[current];
+            current = plusOne(current);
+            count++;
+        }
+        first = length / 2 - 1;
+        last = size;
+        array = newArray;
+        length /= 2;
+    }
 
     public void addFirst(T item) {
-        if (size == length - 1) {
+        if (size == length) {
             resize();
         }
         array[first] = item;
@@ -108,7 +90,7 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if (size == length - 1) {
+        if (size == length) {
             resize();
         }
         array[last] = item;
@@ -148,19 +130,17 @@ public class ArrayDeque<T> {
         if (index < 0 || index >= size) {
             return null;
         }
-        int ptr = first;
-        for (int i = 0; i < index; i++) {
-            ptr = plusOne(ptr);
-        }
-        return array[ptr];
+        return array[index];
     }
 
     public void printDeque() {
-        int i = first;
-        while (i != last) {
-            System.out.print(array[i] + " ");
-            i = plusOne(i);
+//        int i = first;
+//        while (i != last) {
+//            System.out.println(array[i]);
+//            i = plusOne(i);
+//        }
+        for (int i = 0; i < length; i++) {
+            System.out.println(array[i]);
         }
-        System.out.println();
     }
 }
