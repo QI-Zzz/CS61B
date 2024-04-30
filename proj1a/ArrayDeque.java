@@ -11,7 +11,7 @@ public class ArrayDeque<T> {
         size = 0;
         length = 8;
         first = 0;
-        last = 0;
+        last = 1;
     }
 
     public boolean isEmpty() {
@@ -54,7 +54,7 @@ public class ArrayDeque<T> {
 //        length *= 2;
 //    }
 
-    private void grow() {
+    private void resize() {
         T[] newArray = (T[]) new Object[length * 2];
         int current = last;
         int count = 0;
@@ -83,33 +83,33 @@ public class ArrayDeque<T> {
 //        array = newArray;
 //        length /= 2;
 //    }
-    private void shrink() {
-        T[] newArray = (T[]) new Object[length / 2];
-        int current = first + 1;
-        int count = 0;
-        while (count < size) {
-            newArray[count] = array[current];
-            current = plusOne(current);
-            count++;
-        }
-        first = length * 2 -1;
-        last = size + 1;
-        array = newArray;
-        length *= 2;
-    }
+//    private void shrink() {
+//        T[] newArray = (T[]) new Object[length / 2];
+//        int current = first + 1;
+//        int count = 0;
+//        while (count < size) {
+//            newArray[count] = array[current];
+//            current = plusOne(current);
+//            count++;
+//        }
+//        first = length * 2 -1;
+//        last = size + 1;
+//        array = newArray;
+//        length *= 2;
+//    }
 
     public void addFirst(T item) {
         if (size == length - 1) {
-            grow();
+            resize();
         }
-        first = minusOne(first);
         array[first] = item;
+        first = minusOne(first);
         size++;
     }
 
     public void addLast(T item) {
         if (size == length - 1) {
-            grow();
+            resize();
         }
         array[last] = item;
         last = plusOne(last);
@@ -117,29 +117,29 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (length >= 16 && length / size >= 4) {
-            shrink();
-        }
+//        if (length >= 16 && length / size >= 4) {
+//            shrink();
+//        }
         if (size == 0) {
             return null;
         }
+        first = plusOne(first);
         T item = array[first];
         array[first] = null;
-        first = plusOne(first);
         size--;
         return item;
     }
 
     public T removeLast() {
-        if (length >= 16 && length / size >= 4) {
-            shrink();
-        }
+//        if (length >= 16 && length / size >= 4) {
+//            shrink();
+//        }
         if (size == 0) {
             return null;
         }
+        last = minusOne(last);
         T item = array[last];
         array[last] = null;
-        last = minusOne(last);
         size--;
         return item;
     }
