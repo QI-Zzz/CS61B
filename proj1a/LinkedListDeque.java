@@ -33,7 +33,6 @@ public class LinkedListDeque<T> {
         sentinel.next.pre = first;
         sentinel.next = first;
         size++;
-
     }
 
     public void addLast(T item) {
@@ -91,7 +90,7 @@ public class LinkedListDeque<T> {
 
     public void printDeque() {
         Node<T> temp = sentinel.next;
-        while (temp != sentinel){
+        while (temp != sentinel) {
             System.out.println(temp.item);
             temp = temp.next;
         }
