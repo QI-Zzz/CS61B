@@ -3,15 +3,15 @@ public class ArrayDeque<T> {
     private T[] array;
     private int size;
     private int length;
-    private int first;
+    private  int first;
     private int last;
 
     public ArrayDeque() {
-        array = (T[]) new Object[4];
+        array = (T[]) new Object[8];
         size = 0;
-        length = 4;
-        first = 1;
-        last = 2;
+        length = 8;
+        first = 4;
+        last = 5;
     }
 
     public boolean isEmpty() {
@@ -39,7 +39,7 @@ public class ArrayDeque<T> {
         return index - 1;
     }
 
-    public void resize() {
+    private void resize() {
         T[] newArray = (T[]) new Object[length * 2];
         int current = 0;
         if (last > first) {
@@ -60,7 +60,7 @@ public class ArrayDeque<T> {
     }
 
 
-    public void shrink() {
+    private void shrink() {
         T[] newArray = (T[]) new Object[length / 2];
         int current = first + 1;
 //        if (last > first) {
@@ -109,6 +109,9 @@ public class ArrayDeque<T> {
         T item = array[first];
         array[first] = null;
         size--;
+        if (length >= 16 && size < 8) {
+            shrink();
+        }
         return item;
     }
 
@@ -123,16 +126,28 @@ public class ArrayDeque<T> {
         T item = array[last];
         array[last] = null;
         size--;
+        if (length >= 16 && size < 8) {
+            shrink();
+        }
         return item;
     }
 
+//    public T get(int index) {
+//        if (index < 0 || index >= size) {
+//            return null;
+//        }
+//        return array[index];
+//    }
     public T get(int index) {
-        if (index < 0 || index >= size) {
+        if (index >= size) {
             return null;
         }
-        return array[index];
+        int ptr = first + 1;
+        for (int i = 0; i < index; i++) {
+            ptr = plusOne(ptr);
+        }
+        return array[ptr];
     }
-
     public void printDeque() {
 //        int i = first;
 //        while (i != last) {
