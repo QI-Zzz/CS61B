@@ -3,15 +3,15 @@ public class ArrayDeque<T> {
     private T[] array;
     private int size;
     private int length;
-    private  int first;
-    private int last;
+    public  int first;
+    public int last;
 
     public ArrayDeque() {
-        array = (T[]) new Object[8];
+        array = (T[]) new Object[4];
         size = 0;
-        length = 8;
-        first = 4;
-        last = 5;
+        length = 4;
+        first = 1;
+        last = 2;
     }
 
     public boolean isEmpty() {
@@ -81,7 +81,7 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (size == length) {
+        if (size == length - 1) {
             resize();
         }
         array[first] = item;
@@ -90,7 +90,7 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if (size == length) {
+        if (size == length - 1) {
             resize();
         }
         array[last] = item;
@@ -142,7 +142,7 @@ public class ArrayDeque<T> {
         if (index >= size) {
             return null;
         }
-        int ptr = first + 1;
+        int ptr = plusOne(first);
         for (int i = 0; i < index; i++) {
             ptr = plusOne(ptr);
         }
