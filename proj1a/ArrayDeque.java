@@ -1,17 +1,18 @@
+
 public class ArrayDeque<T> {
 
     private T[] array;
     private int size;
     private int length;
-    public  int first;
-    public int last;
+    private int first;
+    private int last;
 
     public ArrayDeque() {
-        array = (T[]) new Object[4];
+        array = (T[]) new Object[8];
         size = 0;
-        length = 4;
-        first = 1;
-        last = 2;
+        length = 8;
+        first = 4;
+        last = 5;
     }
 
     public boolean isEmpty() {
@@ -40,6 +41,7 @@ public class ArrayDeque<T> {
     }
 
     private void resize() {
+
         T[] newArray = (T[]) new Object[length * 2];
         int current = 0;
         if (last > first) {
@@ -81,7 +83,7 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (size == length - 1) {
+        if (size == length) {
             resize();
         }
         array[first] = item;
@@ -90,7 +92,7 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if (size == length - 1) {
+        if (size == length) {
             resize();
         }
         array[last] = item;
@@ -132,22 +134,15 @@ public class ArrayDeque<T> {
         return item;
     }
 
-//    public T get(int index) {
-//        if (index < 0 || index >= size) {
-//            return null;
-//        }
-//        return array[index];
-//    }
+
     public T get(int index) {
-        if (index >= size) {
-            return null;
+        if (index < 0 || index >= size) {
+            return null; // Validate the index to ensure it's within the current bounds of the deque.
         }
-        int ptr = plusOne(first);
-        for (int i = 0; i < index; i++) {
-            ptr = plusOne(ptr);
-        }
-        return array[ptr];
+        int actualIndex = (first + 1 + index) % length; // Calculate the correct array position with wrapping.
+        return array[actualIndex];
     }
+
     public void printDeque() {
 //        int i = first;
 //        while (i != last) {
