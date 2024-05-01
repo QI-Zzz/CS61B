@@ -66,11 +66,11 @@ public class ArrayDeque<T> {
     private void shrink() {
         T[] newArray = (T[]) new Object[length / 2];
         int current = first + 1;
-        if (last > first) {
-            current = last;
-        } else {
-            current = first;
-        }
+//        if (last > first) {
+//            current = last;
+//        } else {
+//            current = first;
+//        }
         int count = 0;
         while (count < size) {
             newArray[count] = array[current];
