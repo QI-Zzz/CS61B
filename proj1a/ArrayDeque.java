@@ -55,6 +55,7 @@ public class ArrayDeque<T> {
             current = plusOne(current);
             count++;
         }
+
         first = length * 2 - 1;
         last = size;
         array = newArray;
@@ -65,11 +66,11 @@ public class ArrayDeque<T> {
     private void shrink() {
         T[] newArray = (T[]) new Object[length / 2];
         int current = first + 1;
-//        if (last > first) {
-//            current = last;
-//        } else {
-//            current = first;
-//        }
+        if (last > first) {
+            current = last;
+        } else {
+            current = first;
+        }
         int count = 0;
         while (count < size) {
             newArray[count] = array[current];
@@ -101,9 +102,6 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-//        if (length >= 16 && length / size >= 4) {
-//            shrink();
-//        }
         if (size == 0) {
             return null;
         }
@@ -111,16 +109,13 @@ public class ArrayDeque<T> {
         T item = array[first];
         array[first] = null;
         size--;
-        if (length >= 16 && size < 8) {
+        if (length >= 16 && size < length * 0.25) {
             shrink();
         }
         return item;
     }
 
     public T removeLast() {
-//        if (length >= 16 && length / size >= 4) {
-//            shrink();
-//        }
         if (size == 0) {
             return null;
         }
@@ -128,7 +123,7 @@ public class ArrayDeque<T> {
         T item = array[last];
         array[last] = null;
         size--;
-        if (length >= 16 && size < 8) {
+        if (length >= 16 && size < length * 0.25) {
             shrink();
         }
         return item;
@@ -137,20 +132,17 @@ public class ArrayDeque<T> {
 
     public T get(int index) {
         if (index < 0 || index >= size) {
-            return null; // Validate the index to ensure it's within the current bounds of the deque.
+            return null;
         }
-        int actualIndex = (first + 1 + index) % length; // Calculate the correct array position with wrapping.
+        int actualIndex = (first + 1 + index) % length;
         return array[actualIndex];
     }
 
     public void printDeque() {
-//        int i = first;
-//        while (i != last) {
-//            System.out.println(array[i]);
-//            i = plusOne(i);
-//        }
-        for (int i = 0; i < length; i++) {
+        int i = plusOne(first);
+        while (i != last) {
             System.out.println(array[i]);
+            i = plusOne(i);
         }
     }
 }
