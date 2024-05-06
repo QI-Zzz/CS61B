@@ -33,7 +33,13 @@ public class GuitarString {
         //       double r = Math.random() - 0.5;
         //
         //       Make sure that your random numbers are different from each other.
-        for(int i = 0; i < buffer.capacity(); i++) {
+//        for(int i = 0; i < buffer.capacity(); i++) {
+//            buffer.enqueue(Math.random() - 0.5);
+//        }
+        while (!buffer.isEmpty()) {
+            buffer.dequeue();
+        }
+        while (!buffer.isFull()) {
             buffer.enqueue(Math.random() - 0.5);
         }
     }
