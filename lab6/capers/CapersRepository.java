@@ -59,6 +59,7 @@ public class CapersRepository {
         String content = Utils.readContentsAsString(story);
         content = content + "\n" + text;
         Utils.writeContents(story, content);
+        System.out.println(content);
     }
 
 
