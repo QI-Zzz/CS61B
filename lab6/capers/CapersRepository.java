@@ -55,12 +55,10 @@ public class CapersRepository {
         File story = Utils.join(CAPERS_FOLDER, "story");
         if (story.exists() == false) {
             story.createNewFile();
-            Utils.writeContents(story, text);
         }
         String content = Utils.readContentsAsString(story);
         content = content + "\n" + text;
         Utils.writeContents(story, content);
-        System.out.println(content);
     }
 
 
