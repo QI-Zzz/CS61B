@@ -2,16 +2,13 @@ package hw2;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
-
 public class Percolation {
     private WeightedQuickUnionUF site;
     private WeightedQuickUnionUF protype;
     private boolean[] isOpen;
     private int top;
     private int bottom;
-    private int num_open;
+    private int numOpen;
     private int N;
 
     //create N-by-N grid, with all sites initially blocked
@@ -22,7 +19,7 @@ public class Percolation {
         this.N = N;
         top = N * N;
         bottom = top + 1;
-        num_open = 0;
+        numOpen = 0;
         site = new WeightedQuickUnionUF(N * N + 2);
         protype = new WeightedQuickUnionUF(N * N + 2);
         for (int i = 0; i < N; i++) {
@@ -50,7 +47,7 @@ public class Percolation {
         }
 
         isOpen[id] = true;
-        num_open += 1;
+        numOpen += 1;
 
         if (row == 0) {
             site.union(id, top);
@@ -74,8 +71,8 @@ public class Percolation {
 
         for (int[] nei: neibors) {
             if (isValid(nei[0], nei[1]) && isOpen(nei[0], nei[1])) {
-                int connect_id = signId(nei[0], nei[1]);
-                site.union(connect_id, signId(row, col));
+                int connectId = signId(nei[0], nei[1]);
+                site.union(connectId, signId(row, col));
             }
         }
 
@@ -90,7 +87,7 @@ public class Percolation {
     }
 
     // is the site (row, col) open?
-    public boolean isOpen(int row, int col) {
+    public boolean isOpen (int row, int col) {
         if (!isValid(row, col)) {
             throw new IndexOutOfBoundsException();
         }
@@ -116,7 +113,7 @@ public class Percolation {
 
     // number of open sites
     public int numberOfOpenSites() {
-        return num_open;
+        return numOpen;
     };
 
     // does the system percolate?
@@ -128,7 +125,5 @@ public class Percolation {
     };
 
     // use for unit testing (not required)
-    public static void main(String[] args){
-
-    };
+    public static void main(String[] args) {};
 }

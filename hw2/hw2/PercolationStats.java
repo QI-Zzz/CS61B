@@ -20,7 +20,7 @@ public class PercolationStats {
         this.times = T;
         results = new double[times];
 
-        for (int i = 0; i <= results.length; i++) {
+        for (int i = 0; i < results.length; i++) {
             Percolation percolation = pf.make(N);
             while (!percolation.percolates()) {
                 int row = StdRandom.uniform(N);
