@@ -7,6 +7,7 @@ import static junit.framework.TestCase.assertTrue;
 
 public class Percolation {
     private WeightedQuickUnionUF site;
+    private WeightedQuickUnionUF protype;
     private boolean[] isOpen;
     private int top;
     private int bottom;
@@ -23,9 +24,10 @@ public class Percolation {
         bottom = top + 1;
         num_open = 0;
         site = new WeightedQuickUnionUF(N * N + 2);
+        protype = new WeightedQuickUnionUF(N * N + 2);
         for (int i = 0; i < N; i++) {
-            site.union(top, signId(0, i));
-            site.union(bottom, signId(N-1, i));
+            protype.union(top, signId(0, i));
+            protype.union(bottom, signId(N-1, i));
         }
         isOpen = new boolean [N * N + 2];
     }
@@ -66,6 +68,7 @@ public class Percolation {
             if (isValid(nei[0], nei[1]) && isOpen(nei[0], nei[1])) {
                 int connect_id = signId(nei[0], nei[1]);
                 site.union(connect_id, signId(row, col));
+                protype.union(connect_id, signId(row, col));
             }
         }
 
@@ -119,5 +122,9 @@ public class Percolation {
 
     // use for unit testing (not required)
     public static void main(String[] args){
+        Percolation percolation = new Percolation(5);
+        assertFalse(percolation.isFull(0, 0));
+        assertFalse(percolation.percolates());
+        assertFalse(percolation.isFull(0, 0));
     };
 }
