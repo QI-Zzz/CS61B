@@ -7,27 +7,29 @@ import java.sql.Timestamp;
 
 public class PercolationStats {
 
-    private int N;
     private int times;
     private double[] results;
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        if (N <= 0 && T <= 0) {
+        if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException();
         }
-        this.N = N;
         this.times = T;
-        results = new double[times];
+        results = new double[T];
 
         for (int i = 0; i < results.length; i++) {
             Percolation percolation = pf.make(N);
             while (!percolation.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
+                while (!percolation.isOpen(row, col)) {
+                    row = StdRandom.uniform(N);
+                    col = StdRandom.uniform(N);
+                }
                 percolation.open(row, col);
             }
-            results[i] = (1.0 + percolation.numberOfOpenSites()) / (N * N);
+            results[i] = (double) percolation.numberOfOpenSites() / (N * N);
         }
 
     }
