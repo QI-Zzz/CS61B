@@ -52,6 +52,14 @@ public class Percolation {
         isOpen[id] = true;
         num_open += 1;
 
+        if (row == 0) {
+            site.union(id, top);
+        }
+
+        if (row == N - 1) {
+            site.union(id, bottom);
+        }
+
         unionNeighbor(row, col);
 
     }
@@ -68,7 +76,6 @@ public class Percolation {
             if (isValid(nei[0], nei[1]) && isOpen(nei[0], nei[1])) {
                 int connect_id = signId(nei[0], nei[1]);
                 site.union(connect_id, signId(row, col));
-                protype.union(connect_id, signId(row, col));
             }
         }
 
@@ -122,9 +129,6 @@ public class Percolation {
 
     // use for unit testing (not required)
     public static void main(String[] args){
-        Percolation percolation = new Percolation(5);
-        assertFalse(percolation.isFull(0, 0));
-        assertFalse(percolation.percolates());
-        assertFalse(percolation.isFull(0, 0));
+
     };
 }
