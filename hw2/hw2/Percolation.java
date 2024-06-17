@@ -2,6 +2,9 @@ package hw2;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+
 public class Percolation {
     private WeightedQuickUnionUF site;
     private boolean[] isOpen;
@@ -47,7 +50,7 @@ public class Percolation {
         isOpen[id] = true;
         num_open += 1;
 
-
+        unionNeighbor(row, col);
 
     }
 
@@ -115,5 +118,6 @@ public class Percolation {
     };
 
     // use for unit testing (not required)
-    public static void main(String[] args){};
+    public static void main(String[] args){
+    };
 }
