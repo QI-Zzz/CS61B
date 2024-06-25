@@ -70,15 +70,19 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             }
         }
         this.buckets = temp.buckets;
-        this.size = newsize;
+        this.size = temp.size;
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
         int index = hash(key);
-        buckets[index].put(key, value);
-        size ++;
+        if (buckets[index].containsKey(key)) {
+            buckets[index].put(key, value);
+        } else {
+            buckets[index].put(key, value);
+            size ++;
+        }
         if (this.loadFactor() >= MAX_LF) {
             resize(size * 2);
         }
